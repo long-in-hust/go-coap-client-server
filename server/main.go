@@ -11,10 +11,12 @@ import (
 )
 
 func loggingMiddleware(next mux.Handler) mux.Handler {
-	return mux.HandlerFunc(func(w mux.ResponseWriter, r *mux.Message) {
-		log.Printf("ClientAddress %v, %v\n", w.Conn().RemoteAddr(), r.String())
-		next.ServeCOAP(w, r)
-	})
+	return mux.HandlerFunc(
+		func(w mux.ResponseWriter, r *mux.Message) {
+			log.Printf("ClientAddress %v, %v\n", w.Conn().RemoteAddr(), r.String())
+			next.ServeCOAP(w, r)
+		},
+	)
 }
 
 func handleA(w mux.ResponseWriter, _ *mux.Message) {
