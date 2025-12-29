@@ -14,7 +14,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error dialing: %v", err)
 	}
-	path := "/a"
+	path := "/api/hello"
 	if len(os.Args) > 1 {
 		path = os.Args[1]
 	}
@@ -25,5 +25,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error sending request: %v", err)
 	}
-	log.Printf("Response payload: %v", resp.String())
+	payloadByte, err2 := resp.ReadBody()
+	if err2 != nil {
+		log.Fatalf("Error retrieving message : %v", err2)
+	}
+	payloadStr := string(payloadByte)
+	log.Printf("Response payload: %v, %v", payloadStr, resp.String())
 }
